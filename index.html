@@ -20,13 +20,15 @@
             --text-main: #2d3436;
             --text-muted: #636e72;
             --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 35px rgba(230, 126, 34, 0.15);
             --grad-dark: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; }
-        h1, h2, h3 { font-family: 'Pacifico', cursive !important; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; padding-bottom: 30px; }
+        h1, h2, h3, .pacifico-text { font-family: 'Pacifico', cursive !important; }
 
+        /* HEADER */
         header.main-header {
             position: fixed; top: 0; width: 100%; height: 70px;
             display: flex; justify-content: space-between; align-items: center;
@@ -34,44 +36,98 @@
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             box-shadow: 0 2px 15px rgba(0,0,0,0.05); z-index: 1000;
         }
-        header h1 { font-size: 1.8rem; color: var(--primary-dark); }
-        nav ul { display: flex; list-style: none; gap: 20px; }
-        nav a { text-decoration: none; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: 0.3s; }
+        header h1 { font-size: 1.8rem; color: var(--primary-dark); letter-spacing: 1px; }
+        nav ul { display: flex; list-style: none; gap: 25px; }
+        nav a { 
+            text-decoration: none; color: var(--text-muted); font-weight: 500; 
+            font-size: 1rem; cursor: pointer; transition: all 0.3s ease; 
+            position: relative;
+        }
         nav a:hover { color: var(--primary-dark); }
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background-color: var(--primary-dark);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after { width: 100%; }
 
         .container { max-width: 1050px; margin: 100px auto 60px; padding: 0 20px; }
-        .app-section, .gallery-section { display: none; animation: fadeIn 0.6s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .app-section, .gallery-section { display: none; animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* HERO BANNER */
         .hero-banner { text-align: center; margin-bottom: 50px; }
-        .hero-banner h2 { font-size: 3rem; margin-bottom: 15px; color: var(--primary-dark); }
-        .hero-img-wrap { border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); background: white; padding: 5px; }
-        .hero-img-wrap img { width: 100%; height: auto; border-radius: 15px; }
-
-        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 30px; }
-
-        .memory-list { display: flex; flex-direction: column; gap: 20px; }
-        .memory-block {
-            position: relative; height: 200px; border-radius: 20px; overflow: hidden;
-            background-size: cover; background-position: center; cursor: pointer; transition: 0.3s;
+        .hero-banner h2 { 
+            font-size: 3.5rem; margin-bottom: 15px;
+            background: linear-gradient(45deg, #f5b041, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .memory-block:hover { transform: scale(1.01); }
-        .memory-overlay { position: absolute; inset: 0; background: var(--grad-dark); color: white; padding: 25px; display: flex; flex-direction: column; justify-content: flex-end; }
+        .hero-banner p { font-size: 1.15rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        .hero-img-wrap { border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-soft); border: 8px solid white; background: white; margin-top: 30px; }
+        .hero-img-wrap img { width: 100%; height: auto; display: block; border-radius: 16px; }
 
-        .gvcn-wrap { display: flex; justify-content: center; margin-bottom: 40px; }
-        .gvcn-card { background: white; padding: 30px; border-radius: 25px; text-align: center; box-shadow: var(--shadow-soft); width: 100%; max-width: 350px; }
-        .avatar-lg { width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 15px; border: 4px solid var(--primary); background-size: cover; background-position: center; }
+        .section-title { text-align: center; font-size: 2.5rem; color: var(--text-main); margin-bottom: 40px; }
+        
+        /* MEMORY LIST */
+        .memory-list { display: flex; flex-direction: column; gap: 25px; }
+        .memory-block {
+            position: relative; width: 100%; height: 200px;
+            border-radius: 20px; overflow: hidden;
+            background-size: cover; background-position: center;
+            cursor: pointer; box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .memory-block:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        .memory-overlay { 
+            position: absolute; inset: 0; background: var(--grad-dark); color: white; 
+            padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; 
+            transition: background 0.3s;
+        }
+        .memory-block:hover .memory-overlay { background: linear-gradient(to top, rgba(230,126,34,0.9) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); }
 
-        .grid-members { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        .member-card { background: white; padding: 20px 10px; border-radius: 15px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .avatar-md { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold; font-size: 1.2rem; }
+        /* MEMBERS AREA */
+        .gvcn-wrap { display: flex; justify-content: center; margin-bottom: 50px; }
+        .gvcn-card { background: white; padding: 40px; border-radius: 30px; text-align: center; box-shadow: var(--shadow-soft); width: 100%; max-width: 400px; }
+        .avatar-lg { 
+            width: 130px; height: 130px; border-radius: 50%; 
+            border: 5px solid white; box-shadow: 0 5px 15px rgba(245, 176, 65, 0.4);
+            margin: 0 auto 20px; background-size: cover; background-position: center;
+        }
+        .grid-members { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; }
+        .member-card { background: white; padding: 25px 15px; border-radius: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02); }
+        .avatar-md { 
+            width: 75px; height: 75px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; 
+        }
 
-        .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-back { background: var(--primary); color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; }
-        .media-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
-        .media-list img, .media-list video { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; background: #000; }
+        /* GALLERY AREA */
+        .gallery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; }
+        .btn-back {
+            background: var(--primary); color: white; border: none;
+            padding: 10px 25px; border-radius: 30px; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-back:hover { background: var(--primary-dark); transform: translateX(-5px); }
+        .media-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .media-list img, .media-list video {
+            width: 100%; height: 220px; object-fit: cover; border-radius: 16px;
+            box-shadow: var(--shadow-soft); background: #000; cursor: pointer; transition: transform 0.3s;
+        }
+        .media-list img:hover, .media-list video:hover { transform: scale(1.04); }
 
-        .footer-credits { position: fixed; bottom: 5px; right: 15px; font-size: 0.7rem; color: var(--text-muted); opacity: 0.4; pointer-events: none; }
+        /* CSS CHO CHỮ KÝ BY NHM 9/9 */
+        .footer-credits {
+            position: fixed;
+            bottom: 5px;
+            right: 15px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            opacity: 0.4;
+            z-index: 100;
+            pointer-events: none;
+            font-family: 'Roboto', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -91,50 +147,80 @@
         <div id="intro-section" class="app-section" style="display: block;">
             <div class="hero-banner">
                 <h2>Thanh Xuân 2026</h2>
-                <p>Nơi lưu giữ kỷ niệm của tập thể 9/9</p>
+                <p>Từ mai thôi, mái trường, thầy cô sẽ vẫn ở đó. Chỉ là không có tôi nữa mà thôi...</p>
             </div>
-            <div class="hero-img-wrap"><img src="class.jpg" alt="Lớp 9/9"></div>
+            <div class="hero-img-wrap"><img src="class.jpg" alt="Tập thể lớp 9/9"></div>
         </div>
 
         <div id="memories-section" class="app-section">
-            <h2 class="section-title">Khoảnh khắc</h2>
+            <h2 class="section-title">Khoảnh khắc thanh xuân</h2>
             <div class="memory-list">
                 <div class="memory-block" style="background-image: url('20_11_1.jpg');" onclick="openGallery('gallery-2011')">
-                    <div class="memory-overlay"><h2>Kỷ niệm 20/11</h2></div>
+                    <div class="memory-overlay"><h2>Kỷ niệm 20/11</h2><p>8 Ảnh • 4 Video</p></div>
+                </div>
+                <div class="memory-block" style="background-image: url('19_11_1.jpg');" onclick="openGallery('gallery-1911')">
+                    <div class="memory-overlay"><h2>Sự kiện 19/11</h2><p>8 Ảnh • 4 Video</p></div>
                 </div>
                 <div class="memory-block" style="background-image: url('van_nghe_1.jpg');" onclick="openGallery('gallery-vannghe')">
-                    <div class="memory-overlay"><h2>Văn Nghệ</h2></div>
+                    <div class="memory-overlay"><h2>Văn Nghệ</h2><p>8 Ảnh • 8 Video</p></div>
+                </div>
+                <div class="memory-block" style="background-image: url('hoi_xuan_1.jpg');" onclick="openGallery('gallery-hoixuan')">
+                    <div class="memory-overlay"><h2>Hội Xuân</h2><p>4 Ảnh • 4 Video</p></div>
+                </div>
+                <div class="memory-block" style="background-image: url('8_3_1.jpg');" onclick="openGallery('gallery-83')">
+                    <div class="memory-overlay"><h2>Sự kiện 8/3</h2><p>4 Ảnh • 4 Video</p></div>
                 </div>
                 <div class="memory-block" style="background-image: url('hai_1.jpg');" onclick="openGallery('gallery-hai')">
-                    <div class="memory-overlay"><h2>Khoảnh khắc hài</h2></div>
+                    <div class="memory-overlay"><h2>Khoảnh khắc hài</h2><p>36 Ảnh dìm • 16 Video</p></div>
                 </div>
             </div>
         </div>
 
         <div id="members-section" class="app-section">
-            <h2 class="section-title">Thành viên lớp</h2>
+            <h2 class="section-title">Đại gia đình 9/9</h2>
             <div class="gvcn-wrap">
                 <div class="gvcn-card">
                     <div class="avatar-lg" style="background-image: url('thay_hai.jpg');"></div>
-                    <h3>Thầy Huỳnh Trung Hải</h3>
-                    <p>Giáo viên Chủ nhiệm</p>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 5px;">Thầy Huỳnh Trung Hải</h3>
+                    <p style="color: var(--primary-dark); font-weight: 500;">Giáo viên Chủ nhiệm</p>
                 </div>
             </div>
+            <h3 style="text-align: center; margin-bottom: 25px; color: var(--text-muted); font-size: 1.1rem; letter-spacing: 2px;">GIÁO VIÊN BỘ MÔN</h3>
+            <div class="grid-members" id="gvbm-list"></div>
+            
+            <p style="text-align: center; margin-top: 15px; color: var(--text-muted); font-style: italic;">- còn rất nhiều thầy cô khác nữa <3 -</p>
+
+            <h3 style="text-align: center; margin: 60px 0 25px; color: var(--text-muted); font-size: 1.1rem; letter-spacing: 2px;">TẬP THỂ 9/9</h3>
             <div class="grid-members" id="student-grid-list"></div>
         </div>
 
         <div id="gallery-2011" class="gallery-section">
-            <div class="gallery-header"><h2>20/11</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
+            <div class="gallery-header"><h2>Kỷ niệm 20/11</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
             <div class="media-list" id="media-2011"></div>
         </div>
 
+        <div id="gallery-1911" class="gallery-section">
+            <div class="gallery-header"><h2>Sự kiện 19/11</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
+            <div class="media-list" id="media-1911"></div>
+        </div>
+
         <div id="gallery-vannghe" class="gallery-section">
-            <div class="gallery-header"><h2>Văn Nghệ</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
+            <div class="gallery-header"><h2>Sân Khấu Văn Nghệ</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
             <div class="media-list" id="media-vannghe"></div>
         </div>
 
+        <div id="gallery-hoixuan" class="gallery-section">
+            <div class="gallery-header"><h2>Hội Xuân</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
+            <div class="media-list" id="media-hoixuan"></div>
+        </div>
+
+        <div id="gallery-83" class="gallery-section">
+            <div class="gallery-header"><h2>Sự kiện 8/3</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
+            <div class="media-list" id="media-83"></div>
+        </div>
+
         <div id="gallery-hai" class="gallery-section">
-            <div class="gallery-header"><h2>Hài hước</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
+            <div class="gallery-header"><h2>Khoảnh khắc hài</h2><button class="btn-back" onclick="goBackToMemories()">⬅ Trở lại</button></div>
             <div class="media-list" id="media-hai"></div>
         </div>
     </main>
@@ -146,12 +232,18 @@
             stopAll();
             document.querySelectorAll('.app-section, .gallery-section').forEach(s => s.style.display = 'none');
             document.getElementById(id).style.display = 'block';
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        function openGallery(id) { showSection(id); }
+        function openGallery(id) {
+            stopAll();
+            document.querySelectorAll('.app-section, .gallery-section').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         function goBackToMemories() { showSection('memories-section'); }
         function stopAll() { document.querySelectorAll('video').forEach(v => v.pause()); }
 
+        // Render Media
         function renderMedia(containerId, prefix, imgCount, vidCount) {
             const container = document.getElementById(containerId);
             if(!container) return;
@@ -160,9 +252,13 @@
         }
 
         renderMedia('media-2011', '20_11', 8, 4);
+        renderMedia('media-1911', '19_11', 8, 4);
         renderMedia('media-vannghe', 'vannghe', 8, 8);
+        renderMedia('media-hoixuan', 'hoixuan', 4, 4);
+        renderMedia('media-83', '8_3', 4, 4);
         renderMedia('media-hai', 'hai', 36, 16);
 
+        // Danh sách sinh viên (Đã thêm Ngọc Yến vào cuối)
         const students = [
             "Thiên An", "Phương Anh", "Quốc Bảo", "Xuân Bảo", "Hoàng Dũng", 
             "Minh Duy", "Dương Đại", "Khánh Đạt", "Diễm Hằng", "Gia Hân", 
@@ -175,16 +271,41 @@
             "Hồng Trung", "Tấn Trung", "Kiến Vy", "Yến Vy", "Hồng Xuân", "Như Ý", "Ngọc Yến"
         ];
 
-        const colors = [{bg:'#f3e8ff',t:'#7e22ce'},{bg:'#e0e7ff',t:'#4338ca'},{bg:'#fce7f3',t:'#be185d'},{bg:'#dcfce7',t:'#15803d'},{bg:'#ffedd5',t:'#c2410c'}];
-        const grid = document.getElementById('student-grid-list');
+        const pastelColors = [{bg:'#f3e8ff',t:'#7e22ce'},{bg:'#e0e7ff',t:'#4338ca'},{bg:'#fce7f3',t:'#be185d'},{bg:'#dcfce7',t:'#15803d'},{bg:'#ffedd5',t:'#c2410c'}];
         
+        // Danh sách GVBM
+        const subjects = [
+            {n:"Lan Phương",s:"VĂN"},
+            {n:"Hồng Oanh",s:"KHTN"},
+            {n:"Quỳnh Hương",s:"ANH"},
+            {n:"Bá Hùng",s:"GDCD"},
+            {n:"Quỳnh Lê",s:"TIN"},
+            {n:"Xuân Bình",s:"LSĐL"},
+            {n:"Hằng",s:"CN"},
+            {n:"Ngân",s:"MT"},
+            {n:"Duy",s:"ÂN"},
+            {n:"Diến",s:"GDĐP"},
+            {n:"Nghị",s:"TD"}
+        ];
+        
+        const gvbmList = document.getElementById('gvbm-list');
+        subjects.forEach((sub, i) => {
+            const c = pastelColors[i % 5];
+            gvbmList.innerHTML += `<div class="member-card"><div class="avatar-md" style="background:${c.bg};color:${c.t}">${sub.s}</div><p>${sub.n}</p></div>`;
+        });
+
+        const studentGrid = document.getElementById('student-grid-list');
         students.forEach((name, i) => {
-            const c = colors[i % 5];
-            const initial = name.split(" ").pop().charAt(0);
-            grid.innerHTML += `
+            const c = pastelColors[i % 5];
+            const nameParts = name.split(" ");
+            const lastName = nameParts[nameParts.length - 1];
+            const initial = lastName.charAt(0).toUpperCase();
+
+            // Thêm i + 1 để hiện số thứ tự cho dễ đếm nhé
+            studentGrid.innerHTML += `
                 <div class="member-card">
-                    <div class="avatar-md" style="background:${c.bg};color:${c.t}">${initial}</div>
-                    <p style="font-size: 0.9rem;">${i+1}. ${name}</p>
+                    <div class="avatar-md" style="background:${c.bg};color:${c.t};font-weight:bold;">${initial}</div>
+                    <p style="font-size: 0.9rem; font-weight: 500;">${i + 1}. ${name}</p>
                 </div>`;
         });
     </script>
